@@ -1,0 +1,455 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\API;
+use Illuminate\Http\Request;
+
+use App\Models\Clients;
+
+
+class APIController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+        $data = Clients::all();
+        return response()->json(['clients' => $data]);
+        //return response()->json(['message' => "hello"]); 
+
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+        //return view('/', ['request' => $request]);
+        return response()->json(['message' => $request->info]); 
+
+        /*
+        {
+    "info":{
+        "client_email":"ile-de-france@jaguar-network.com",
+        "file_name" :"appat.txt",
+        "file_path" : "/mnt/partage1/Drive_client",
+        "check_result" : "NOT OK",
+        "last_check" : "2021-12-17 15:29:02",
+        "alert" : "true"
+    }
+}
+*/
+/*
+
+        Hah_File_Model::create([
+            'nom_de_fichier' => $request->nom_de_fichier,
+            'Chemin_de_fichier' => $request->chemin_de_fichier,
+            'Hash_de_fichier' => $hash,
+            'resultat_de_check' => 'OK',
+            'date_du_dernier_check' => Carbon::now()->toDateTimeString(),
+            'Trois_check_not_ok' => Carbon::now()->toDateTimeString(),
+        ]);
+*/
+
+
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\API  $aPI
+     * @return \Illuminate\Http\Response
+     */
+    public function show(API $aPI)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\API  $aPI
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(API $aPI)
+    {
+        //
+    }
+
+
+
+    public function update_client(Request $request)
+    {
+        
+        $client_exist = Clients::where('email', $request->email)->get();      // Check if client exist
+        
+        if(sizeof($client_exist) > 0){ // if client exist
+            $client = Clients::where('email', '=', $request->email)->first();
+            $client->update([
+                'nom_entreprise' =>  $request->nom_entreprise,
+                'site' =>  $request->site,
+                'nom_client' => $request->nom_client,
+                'mobile' => $request->mobile,
+            ]);
+
+            return response()->json(['message' => "et dans le serveur console management!"]); 
+        } else {    
+            Clients::create([
+                'nom_entreprise' =>  $request->nom_entreprise,
+                'site' =>  $request->site,
+                'nom_client' => $request->nom_client,
+                'mobile' => $request->mobile,
+                'email' => $request->email,
+            ]);
+            return response()->json(['message' => " et dans le dans le serveur console management!"]); 
+        }   
+    }
+
+    public function add_client(Request $request, Clients $client)
+    {
+        $client = Clients::where('email', '=', $request->email)->first();
+        
+        // si le client n'existe pas, créer le client
+        if ($client->email === null) {
+            $client->create([
+                'nom_entreprise' =>  $request->nom_entreprise,
+                'site' =>  $request->site,
+                'nom_client' => $request->nom_client,
+                'mobile' => $request->mobile,
+                'email' => $request->email,
+            ]);
+            return response()->json(['message' => " Le client est ajouter avec success dans le serveur console management!"]); 
+        } else {    // if client exist
+            return response()->json(['message' => "Client already exist!"]); 
+        }   
+    }
+
+    
+
+    public function destroy(API $aPI)
+    {
+        //
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\API;
+use Illuminate\Http\Request;
+
+// Models
+use App\Models\Clients;
+use App\Models\Fichiers;
+use App\Models\ResultatCheck;
+use App\Models\Alerts;
+
+// Controllers
+use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\FichiersController;
+use App\Http\Controllers\ResultatCheckController;
+
+
+
+class APIController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+        $data = Clients::all();
+        return response()->json(['clients' => $data]);
+        //return response()->json(['message' => "hello"]); 
+
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+
+
+    public function store(Request $request) {
+        $request_length = count($request->json());      // GET longueure de données (array) reçu dans le request.
+        
+        //return response()->json(['message' => $request[$i]]);
+        //return response()->json(['message' => "server message ".$d]);   // i used ".". for correct the error array to string conversion
+        
+        // Boucle for
+        for ($index = 0; $index<$request_length; $index++ ){
+
+            // GET information de variable correspondance reçu depuis client.
+            $client_email_received = $request[0]['client_email'];       // on prendre le email de premier array car tous les données dans le meme request(array) vient de meme client.
+            $file_path_received = $request[$index]['file_path'];        // On GET le path de chaque fichier reçu
+            $alert = $request[$index]['alert'];     // GET le variable alert reçu.
+
+            // Verification des données reçu si ils sont vide ou pas
+            // Si l'email et le chemin de fichier n'est pas vide
+            if (!empty($client_email_received) && !empty($file_path_received)){
+                // GET information correspondance à ce condition depuis le base de données.
+                $file_row_database = Fichiers::where('Chemin_de_fichier', $file_path_received)->first();      // GET ALL data correspondaning to client
+                $client_row_database = Clients::where('email', $client_email_received)->first();      // comparer le email reçu avec le email dans le base de données 
+                
+                // Verifié si le email reçu est différent de celle dans le base de données.
+                // Si le client existe déja dans le base de données
+                if($client_row_database !== NULL){
+                    $last_inserted_file_id = Fichiers::latest('id')->first()->id;       // GET dernier id dans le table de fichier
+                    $client_id = $client_row_database['id'];        // GET client ID
+
+                    // Verifiée Si le fichier existe déja dans le base de données
+                    if ($file_row_database !== null){
+                        
+                        // Variables
+                        $file_ID = $file_row_database['id'];       // GET file ID
+                        
+                        // Instant de models
+                        $resultatCheck = new ResultatCheck;
+                        
+                        // Ajouter alerts ( on ajoute alert si le client et fichier existe )
+                        // Si il y a un alert dans le fichier reçu on ajoute un alert dans le tableau alert de base de données.
+                        if ($alert){
+                            Alerts::create([
+                                'file_id' =>  $file_row_database['id'],
+                            ]);
+                        }
+
+                        // Si l'Alert n'est pas vrai dans le request reçu ( si aleert = false )
+
+
+                        // Ajouter le resultat de check dans le table resultat_check
+                        $new_request = new Request($request[$index]);       // on change le type array on type request
+                        ResultatCheckController::store($new_request, $resultatCheck);
+
+
+                        
+                        
+                        /*
+                        ResultatCheck::create([
+                            'file_id' =>  $file_ID,
+                            'resultat_check' =>  $request[$index]['check_result'],
+                        ]);
+                        */
+                        
+                        // add information only to resultat_check table.
+                        return response()->json(['message' => "Client Ok file OK"]);
+                    
+                    }else{  // Si le fichier n'existe pas dans le base de donnéees mais le client s'existe.
+                        
+                        // Add inforamtion to fichier table.
+                        $req = new Request($request[$index]);       // on change le type array on type request
+                        FichiersController::store($req, $client_id);
+
+
+                        /*
+                        Fichiers::create([
+                            'client_id' => $client_id,
+                            'nom_de_fichier' =>  $request[$index]['file_name'],
+                            'Chemin_de_fichier' => $request[$index]['file_path'],
+                            'date_du_dernier_check' => $request[$index]['last_check'],
+                        ]);
+                        */
+                        
+                        // add information only to resultat_check table.
+                        /*
+                        ResultatCheck::create([
+                            'file_id' =>  $last_inserted_file_id+1,
+                            'resultat_check' =>  $request[$index]['check_result'],
+                        ]);
+                        */
+                        //return response()->json(['message' => "ADD to fichiers and resultatcheck tables"]);
+                    }
+
+                }else{  // SI le client n'existe pas déja dans le base de données 
+
+                    // créer instance de model suivant
+                    $client = new Clients;
+                    $file = new Fichiers;
+                    $resultatCheck = new ResultatCheck;
+
+                    // On verifiée que le premier array de request car on est ici dans le condition si le client n'existe pas
+                    // après insérer le client on ne vien pas dans ce condition.
+                    $new_request= new Request($request[0]);       // on change le type array en type request
+
+                    // Crée le client en appellant le fonction store de ClientsController
+                    ClientsController::store($new_request, $client);
+
+                    // Après créer le client on GET son ID et on l'ajoute dans le request.
+                    $client_id = Clients::where('email', $client_email_received)->first()->id;      // GET client ID
+                    $new_request->merge(['client_id' => $client_id]);        // Ajoute le variable client_id dans le request
+
+                    // ajouter les informations dans le table fichiers
+                    // Si le client ne s'existe pas alors il n'aucune fichiers aussi dans le table de fichiers. 
+                    FichiersController::store($new_request, $file);
+
+                    
+                    // On GET dernier ID de la table fichier pour ajouter dans le table resultatcheck.
+                    $last_inserted_file_id = Fichiers::latest('id')->first()->id; 
+                    $new_request->merge(['file_id' => $last_inserted_file_id]);        // Ajoute le variable client_id dans le request
+
+                    // ajouter les informations dans le table resultat_check
+                    ResultatCheckController::store($new_request, $resultatCheck);
+
+
+                    // Ajouter Alerts
+                    // on ne traite pas cette condition ici, car c'est le premier request qui vient de client et
+                    // c'est presque impossible que le client créer son compte et ajouter un fichier et le hash de fichier 
+                    // sera différent.
+    
+                    return response()->json(['message' => "Client est crée avec success et le premier fichier est aussi ajouter, et en plus le resultat de check est sauvegarder! "]);
+                }
+
+            } else{ // Si les données recu sont vide
+                return response()->json(['message' => "Verifiée si le client et le fichier sont bien engregistr& chez client serveur!"]);
+            }
+        }
+
+
+        /*
+        for loop in all array recived
+            if client exist {
+                add file informtion to file table
+                add information to resultat_check table
+                
+                if alert =true{
+                    add alert to alert table
+                }
+
+            }else{
+                create client
+                add file_info to table with corresponding client_id
+            }
+
+
+
+
+
+        */
+
+
+        /*
+        {
+    "info":{
+        "client_email":"ile-de-france@jaguar-network.com",
+        "file_name" :"appat.txt",
+        "file_path" : "/mnt/partage1/Drive_client",
+        "check_result" : "NOT OK",
+        "last_check" : "2021-12-17 15:29:02",
+        "alert" : "true"
+    }
+}
+*/
+/*
+
+        Hah_File_Model::create([
+            'nom_de_fichier' => $request->nom_de_fichier,
+            'Chemin_de_fichier' => $request->chemin_de_fichier,
+            'Hash_de_fichier' => $hash,
+            'resultat_de_check' => 'OK',
+            'date_du_dernier_check' => Carbon::now()->toDateTimeString(),
+            'Trois_check_not_ok' => Carbon::now()->toDateTimeString(),
+        ]);
+*/
+
+
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\API  $aPI
+     * @return \Illuminate\Http\Response
+     */
+    public function show(API $aPI)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\API  $aPI
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(API $aPI)
+    {
+        //
+    }
+
+
+
+    public function update_client(Request $request)
+    {
+        
+        $client_exist = Clients::where('email', $request->email)->get();      // Check if client exist
+        
+        if(sizeof($client_exist) > 0){ // if client exist
+            $client = Clients::where('email', '=', $request->email)->first();
+            $client->update([
+                'nom_entreprise' =>  $request->nom_entreprise,
+                'site' =>  $request->site,
+                'nom_client' => $request->nom_client,
+                'mobile' => $request->mobile,
+            ]);
+
+            return response()->json(['message' => "et dans le serveur console management!"]); 
+        } else {    
+            Clients::create([
+                'nom_entreprise' =>  $request->nom_entreprise,
+                'site' =>  $request->site,
+                'nom_client' => $request->nom_client,
+                'mobile' => $request->mobile,
+                'email' => $request->email,
+            ]);
+            return response()->json(['message' => " et dans le dans le serveur console management!"]); 
+        }   
+    }    
+
+    public function destroy(API $aPI)
+    {
+        //
+    }
+}
