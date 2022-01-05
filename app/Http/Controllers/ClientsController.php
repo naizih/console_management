@@ -14,9 +14,11 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        //
-        $data = Clients::first();
-        return response()->json(['data' => $data]);
+        $info_client = Clients::paginate(12);
+        return view('accueil', ['information_client' => $info_client]); 
+
+        //$data = Clients::first();
+        //return response()->json(['data' => $data]);
         //dd($data);
     }
 
@@ -53,7 +55,7 @@ class ClientsController extends Controller
 
         // we use direst methode herer because of API also use this function
         $client->create([
-            'nom_entreprise' =>  $request->file_name,
+            'nom_entreprise' =>  $request->nom_entreprise,
             'site' =>  $request->site,
             'nom_client' => $request->nom_client,
             'mobile' => $request->mobile,

@@ -1,9 +1,12 @@
 
-@extends('templates.layout')
+@extends('templates.dashboard')
 
 @section('content')
-<section style="min-height: 40vh">
-<h1>hello V1.0</h1>
+<section>
+
+    <div class="container">
+        <h1> Accueil</h1>
+    </div>
 </section>
 
 @endsection
