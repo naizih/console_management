@@ -41,6 +41,7 @@
             @if ($nb_client === 1)
                 <div class="table-responsive m-4">
                     <table class="table table-bordered">
+                        <h3> Tous les fichiers de utilisateur <a href="client_info/{{ ($fichiers[0]->client->id)}}/details"> {{ ucfirst($fichiers[0]->client->nom_client)}}</a> </h3>
                         <thead class="text-center align-middle">
                             <tr>
                                 <th scope="col"> {{ __('Nom de fichier')}} </th>

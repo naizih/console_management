@@ -22,28 +22,12 @@ class FichiersController extends Controller
     }
 
 
-    public function alert()
-    {
-        // redirection vers la page de alert
-
-        $all_file = Alerts::all();
-        if ( count($all_file) > 12 ){
-            $paginate = Alerts::paginate(12);
-            return view('fichiers.fichier_alert', ['fichiers' => $paginate]);
-        }else{
-            return view('fichiers.fichier_alert', ['fichiers' => $all_file]);
-        }
-        
-    }
-
-
-
     public function search(Request $request){
         //dd($request->search);
 
         // Après afficher pleusieur entreprise de meme nom si l'utilisateur clique sur un de lien il arrive dans ce condition
         //dd($request->search);
-        
+
         
         if (isset($request->search) && $request->search == 'second') {
             $fichiers = Fichiers::where('client_id', $request->second_search)->get();
@@ -57,8 +41,12 @@ class FichiersController extends Controller
         if (isset($request->search) && $request->search == 'first') {
             if ($request->recherch != Null ){
                 $search = $request->recherch;
-                $client_ids = Clients::where('nom_entreprise', 'LIKE', '%'.$search.'%')->get(); 
+                $client_ids = Clients::where('nom_entreprise', 'LIKE', '%'.$search.'%')->where('accepter', '1')->get();
                 $res = [];
+
+                if ($client_ids->first() == Null ){
+                    return back()->with('fail','On ne trouve pas l\'entreprise avec le mot clé que vous entrée !');
+                }
 
                 //dd(count($client_ids));
                 for ($index=0; $index < count($client_ids) ; $index++) { 
@@ -85,7 +73,6 @@ class FichiersController extends Controller
                 return view('fichiers.fichier_home', ['fichiers' => $fichiers, 'nb_client' => count($res)]); 
             }
             return back()->with('fail','Votre recherche est vide, S\'il vous okait ecrire le nom d\'entreprise pour rechercher les fichier correspondance !');
-    
         }
     }
 
@@ -111,11 +98,31 @@ class FichiersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function store(Request $request, Fichiers $file ) {
 
+        // validation de données 
+        //var_dump($request);
+        
+        $validator = $request->validate([
+            'client_id' => 'required',
+            'file_name' => 'required',
+            'file_path' => 'required',
+            'last_check' => 'required',
+        ]);
+
+        // Inséerer les données dans le base de données.
+        $file->create([
+            'client_id' => $request->client_id,
+            'nom_de_fichier' =>  $request->file_name,
+            'Chemin_de_fichier' => $request->file_path,
+            'date_du_dernier_check' => $request->last_check,
+        ]);
+        
+        
+        return redirect('/');
+        //return response()->json(['message' => "Fichier sont ajouter avec success dans le base de données."]);
+
+    }
     /**
      * Display the specified resource.
      *

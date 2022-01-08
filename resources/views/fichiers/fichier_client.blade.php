@@ -1,10 +1,10 @@
 @extends('templates.dashboard')
 
 @section('content')
-<div class="table-responsive m-4">
-    <h2> Tous les fichiers de utilisateur <strong>{{$fichiers[0]->client->nom_client}}</strong> </h2>
+<div class="table-responsive bg-white border rounded">
+    <h2 class="px-2 py-3"> Tous les fichiers de utilisateur <strong>{{$fichiers[0]->client->nom_client}}</strong> </h2>
     <table class="table table-bordered">
-        <thead class="text-center align-middle">
+        <thead class="align-middle">
             <tr>
                 <th scope="col"> {{ __('Nom de fichier')}} </th>
                 <th scope="col"> {{ __('Chemin de fichier')}} </th>

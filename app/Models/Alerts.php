@@ -12,7 +12,7 @@ class Alerts extends Model
     use HasFactory;
     
     protected $fillable = [
-        'file_id'
+        'file_id', 'gerer'
     ];
 
 

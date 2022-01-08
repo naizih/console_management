@@ -1,3 +1,4 @@
+
 @extends('templates.dashboard')
 
 @section('content')
@@ -19,7 +20,7 @@
     <!-- Include le page tab -->
     @include('clients.tabs')
 
-    <h2 class="px-2 py-3"> {{ __('Tous les clients')}} </h2>
+    <h2 class="px-2 py-3"> {{ __('Tous les clients Accepter')}} </h2>
     <table class="table table-bordered table-striped">
         <thead class="align-middle">
             <tr>
@@ -53,6 +54,18 @@
                                 <input type="hidden" name="id" value="{{$client->id}}">
                                 <button type="submit" class="btn btn-primary mx-1"> <i class="fa fa-folder"></i> Fichiers</button>
                             </form>
+
+                            <a href="{{ route('user.user-request') }}" class="btn btn-danger"
+                                    onclick="event.preventDefault(); 
+                                    document.getElementById('rejeter-form').submit();"> 
+                            <i class="fa fa-times"></i> {{ __('Désactiver')}} </a>
+
+                            <form id="rejeter-form" action="{{ route('user.user-request') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $client->id }}">
+                                <input type="hidden" name="send" value="deny">
+                            </form>
+
                         </div>
                         <!--<a href="client_info/{{$client->id}}/edit" class="btn btn-primary"> <i class="fa fa-edit"></i> {{ __('Edit')}} </a>-->
                     </td>
@@ -60,13 +73,17 @@
                 @endforeach
             </tbody>
         </table>
-
-                
-    <!-- End of responsive table -->
-    {{-- Pagination --}}
-    <div class="d-flex justify-content-center my-4">
-        {!! $clients->links() !!}
     </div>
+    <!-- End of responsive table -->
+
+
+        {{-- Pagination --}}
+        @if($clients instanceof \Illuminate\Pagination\LengthAwarePaginator )
+        <div class="d-flex justify-content-center my-4">
+            {!! $clients->links() !!}
+        </div>
+        @endif
+
 </div>
 
 
