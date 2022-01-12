@@ -50,15 +50,10 @@
                         <div class="btn-group">
                             <a href="/client_info/{{$client->id}}/details" class="btn btn-secondary"> <i class="fa fa-user"></i> {{ __('Profile')}} </a>
 
-                            <a href="{{ route('user.user-request') }}" class="btn btn-success mx-1"
-                                    onclick="event.preventDefault(); 
-                                    document.getElementById('rejeter-form').submit();"> 
-                            <i class="fa fa-check"></i> {{ __('Activer')}} </a>
-
                             <form id="rejeter-form" action="{{ route('user.user-request') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $client->id }}">
-                                <input type="hidden" name="send" value="accept">
+                                <button class="btn btn-success mx-1" name="send" value="accept"><i class="fa fa-check"></i> Accepter </button> 
                             </form>
 
 

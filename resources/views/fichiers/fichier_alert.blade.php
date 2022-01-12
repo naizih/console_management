@@ -31,8 +31,8 @@
                         @csrf
                         <select class="form-select"  name="filter" id="filter_alert">
                             <option value=""> Choisir un option pour filtrer </option>
-                            <option value="alert_success"> Alerts n'est pas gérer </option>
-                            <option value="alert_gerer"> Alerts gérer </option>
+                            <option value="alert_success"> Alerts non gérées </option>
+                            <option value="alert_gerer"> Alerts gérées </option>
                         </select>
                     </form>
                 </div>

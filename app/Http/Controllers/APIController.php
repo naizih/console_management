@@ -49,7 +49,7 @@ class APIController extends Controller
         
         $request_length = count($request->json());      // GET longueure de données (array) reçu dans le request.
         $messages = [];         // variable pour stocker le message et envoyer à la fin au utilisateur.
-       
+
         // créer instance de model suivant
         $client = new Clients;
         $file = new Fichiers;
@@ -78,7 +78,7 @@ class APIController extends Controller
                 for ($index=0; $index < $request_length ; $index++) { 
                     
                     $get_client_id = Clients::where('email', $request[0]['client_email'])->first()->id;         // GET id de client 
-                    $file_existe = Fichiers::where('client_id', $get_client_id)->where('Chemin_de_fichier', $request[$index]['file_path'])->get();    // query pout savoir si le fichier existe déja dans le base de données.
+                    $file_existe = Fichiers::where('client_id', $get_client_id)->where('Chemin_de_fichier', $request[$index]['file_path'])->first();    // query pout savoir si le fichier existe déja dans le base de données.
                     $alert = $request[$index]['alert'];     // GET le variable alert reçu.
                     $new_request = new Request($request[$index]);       // on change le type array on type request
 

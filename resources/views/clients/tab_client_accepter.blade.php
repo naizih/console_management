@@ -55,15 +55,10 @@
                                 <button type="submit" class="btn btn-primary mx-1"> <i class="fa fa-folder"></i> Fichiers</button>
                             </form>
 
-                            <a href="{{ route('user.user-request') }}" class="btn btn-danger"
-                                    onclick="event.preventDefault(); 
-                                    document.getElementById('rejeter-form').submit();"> 
-                            <i class="fa fa-times"></i> {{ __('Désactiver')}} </a>
-
                             <form id="rejeter-form" action="{{ route('user.user-request') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $client->id }}">
-                                <input type="hidden" name="send" value="deny">
+                                <button class="btn btn-danger" name="send" value="deny"><i class="fa fa-times"></i> Désactiver </button> 
                             </form>
 
                         </div>

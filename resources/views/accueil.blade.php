@@ -33,7 +33,7 @@
 
 
 
-        @if(count($clients) > 0 )
+        @if(count($alerts) > 0 )
             @include('fichiers.accueil_fichier_alert')
         @endif
 

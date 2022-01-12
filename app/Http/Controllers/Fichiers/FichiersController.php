@@ -37,12 +37,12 @@ class FichiersController extends Controller
             return back()->with('fail',' le Client n\'a pas des fichiers !');
         }
         
-
         if (isset($request->search) && $request->search == 'first') {
             if ($request->recherch != Null ){
                 $search = $request->recherch;
                 $client_ids = Clients::where('nom_entreprise', 'LIKE', '%'.$search.'%')->where('accepter', '1')->get();
                 $res = [];
+
 
                 if ($client_ids->first() == Null ){
                     return back()->with('fail','On ne trouve pas l\'entreprise avec le mot clé que vous entrée !');
@@ -69,8 +69,11 @@ class FichiersController extends Controller
                 }
                 
                 $fichiers = Fichiers::where('client_id', $res[0])->get();
+                if(count($fichiers) > 0 ){
+                    return view('fichiers.fichier_home', ['fichiers' => $fichiers, 'nb_client' => count($res)]); 
+                }
                 //dd(count($fichiers));
-                return view('fichiers.fichier_home', ['fichiers' => $fichiers, 'nb_client' => count($res)]); 
+                return back()->with('fail','le client n\'a pas de fichiers !');
             }
             return back()->with('fail','Votre recherche est vide, S\'il vous okait ecrire le nom d\'entreprise pour rechercher les fichier correspondance !');
         }

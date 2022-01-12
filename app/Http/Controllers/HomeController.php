@@ -32,7 +32,7 @@ class HomeController extends Controller
         }
 
 
-        $paginate_client = Clients::where('accepter', Null)->get();
+        $paginate_client = Clients::where('accepter', NULL)->get();
         if ( count($paginate_client) > 4 ){
             $paginate_client = Clients::where('accepter', Null)->paginate(4, ['*'], 'pagination_client');
         }
