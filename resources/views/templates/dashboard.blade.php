@@ -88,7 +88,7 @@
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link {{ Route::current()->getName() == 'user.alerts' ? 'text-white bg-dark' : '' }} text-white" aria-controls="home" href="{{route('user.alerts')}}" role="tab" data-toggle="tab"><i class="fa fa-exclamation-triangle text-danger"></i> Alerts </a>
+                        <a class="nav-link {{ Route::current()->getName() == 'user.alerts' ? 'text-white bg-dark' : '' }} text-white" aria-controls="home" href="{{route('user.alerts')}}" role="tab" data-toggle="tab"><i class="fa fa-exclamation-triangle text-danger"></i> Alertes </a>
                         <!--<a class="nav-link" href="{{ route('user.alerts') }}"> <i class="fa fa-exclamation-triangle text-danger"></i> Alerts</a>-->
                     </li>
 

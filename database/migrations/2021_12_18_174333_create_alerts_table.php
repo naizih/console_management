@@ -16,6 +16,7 @@ class CreateAlertsTable extends Migration
         Schema::create('alerts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('file_id')->references('id')->on('fichiers')->onDelete('cascade');
+	    $table->string('gerer');
             $table->timestamps();
         });
     }

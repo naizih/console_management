@@ -25,7 +25,7 @@ class AlertsController extends Controller
         
         //dd(Alerts::orderBy('gerer', 'desc')->get());
 
-        //$fichiers = Alerts::orderByasc('gerer', '1')->paginate(8);   
+        //$fichiers = Alerts::orderBydesc('gerer', '1')->paginate(8);   
         if ( $request->filter  == 'alert_success') {
             $fichiers = Alerts::orderBy('gerer', 'asc')->orderBy('created_at', 'desc')->paginate(8);   
         }

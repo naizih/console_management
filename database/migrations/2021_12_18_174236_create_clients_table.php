@@ -20,7 +20,7 @@ class CreateClientsTable extends Migration
             $table->string('nom_client', 20);
             $table->string('mobile');
             $table->string('email');
-            $table->string('accepter');
+            $table->string('accepter')->nullable();
             $table->timestamps();
         });
     }

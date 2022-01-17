@@ -23,6 +23,10 @@
 
 
         <h1> Accueil</h1>
+
+        @if (Auth::user()->isAdmin() )
+        <h1> Accueil</h1>
+        @endif
         <hr>
 
         
