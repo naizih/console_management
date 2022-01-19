@@ -43,7 +43,7 @@
             @guest
                 @if (Route::has('login'))
                     <div class="d-flex text-white">
-                        <a href="{{ route('user.home') }}" class="btn text-white"><i class="fa fa-fw fa-sign-in"></i> Login</a>
+                        <a href="{{ route('login') }}" class="btn text-white"><i class="fa fa-fw fa-sign-in"></i> Login</a>
                     </div>
                     @endif
             @else
