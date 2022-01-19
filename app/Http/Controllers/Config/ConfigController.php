@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Config;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class ConfigController extends Controller
 {
@@ -14,8 +15,9 @@ class ConfigController extends Controller
      */
     public function index()
     {
-        //
-        return view('config.accueil_config');   
+        $paginate = User::paginate(12);
+
+        return view('config.accueil_config', ['clients' => $paginate]);   
     }
 
     /**

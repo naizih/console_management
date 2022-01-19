@@ -15,7 +15,9 @@
                 <th scope="col"> {{ __('Fichier')}} </th>
                 <th scope="col"> {{ __('chemin de fichier')}} </th>
                 <th scope="col"> Date d'alert </th>
+                @if( Auth::check())
                 <th scope="col"> {{ __('Gérer')}} </th>
+                @endif
             </tr>
             </thead>
 
@@ -31,6 +33,8 @@
                     <td> {{ $alert->fichier->nom_de_fichier}} </td>
                     <td> {{ $alert->fichier->Chemin_de_fichier}} </td>
                     <td> {{ $alert->created_at}} </td>
+
+                    @if( Auth::check())
                     <td>
                         <form action="{{ route('user.alert-gerer') }}" method="post">
                             @csrf
@@ -39,6 +43,7 @@
                             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Oui </button>
                         </form>
                     </td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>

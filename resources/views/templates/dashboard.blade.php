@@ -92,9 +92,11 @@
                         <!--<a class="nav-link" href="{{ route('user.alerts') }}"> <i class="fa fa-exclamation-triangle text-danger"></i> Alerts</a>-->
                     </li>
 
+                    @if (Auth::user()->is_admin == 1)
                     <li class="nav-item">
                         <a class="nav-link {{ Route::current()->getName() == 'user.config' ? 'text-white bg-dark' : '' }} text-white" aria-controls="home" href="{{route('user.config')}}" role="tab" data-toggle="tab"><i class="fa fa-cog"></i> Config </a>   
                     </li>
+                    @endif
 
                 </ul>
             </div>

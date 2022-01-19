@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAlertsTable extends Migration
+class CreatePermissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateAlertsTable extends Migration
      */
     public function up()
     {
-        Schema::create('alerts', function (Blueprint $table) {
+        Schema::create('permissions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('file_id')->references('id')->on('fichiers')->onDelete('cascade');
-	        $table->string('gerer')->default('0');
+            $table->string('name');
+            $table->string('slug');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateAlertsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('alerts');
+        Schema::dropIfExists('permissions');
     }
 }

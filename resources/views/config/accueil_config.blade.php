@@ -19,13 +19,21 @@
         @endif
       
 
+        <!-- Include le page tab
+        @include('config.tabs')
+         -->
 
-
-
-        <h1> Config</h1>
-        <hr>
+         <h2>Config</h2>
+         <hr>
 
         
+
+         @include('users.afficher_utilisateurs')
+
+
+
+
+
 
 
     </div>

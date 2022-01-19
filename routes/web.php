@@ -10,22 +10,23 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AlertsController;
 use App\Http\Controllers\Config\ConfigController;
 
+use App\Http\Controllers\User\UsersController;
+
 
 
 //Auth::routes();
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
+
 Auth::routes([
-    'register' => true, // Registration Routes...
+    'register' => false, // Registration Routes...
     'reset' => false, // Password Reset Routes...
     'verify' => false, // Email Verification Routes...
 ]);
 
 
-Route::get('/', function(){
-    return redirect('home');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 Route::name('user.')->group(function(){
@@ -52,9 +53,6 @@ Route::name('user.')->group(function(){
 
 
 
-        Route::get('/config', [ConfigController::class, 'index'])->name('config');
-
-
 
         
         Route::post('user-request', [ClientsController::class, 'user_request'])->name('user-request');
@@ -72,9 +70,25 @@ Route::name('user.')->group(function(){
     });
 
 
+    Route::middleware(['is_admin', 'PreventBackHistory'])->group(function(){
+        Route::get('/config', [ConfigController::class, 'index'])->name('config');
+
+        Route::get('/register', [UsersController::class, 'create'])->name('register');
+        
+        //Route::get('/view', [UsersController::class, 'index'])->name('admin_view');
+        Route::get('/edit/{id}', [UsersController::class, 'edit'])->name('edit');
+        Route::post('/delete', [UsersController::class, 'destroy'])->name('admin_delete');
+
+    });
+
+
     //Route::middleware(['guest:web','PreventBackHistory'])->group(function(){ });
 
     //Route::middleware(['auth:web','PreventBackHistory'])->group(function(){ });
+
+
+
+
 });
 
 

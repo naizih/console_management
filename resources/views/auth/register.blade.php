@@ -34,11 +34,11 @@
                             <div class="col-md-6">
 
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault1" checked>
+                                    <input class="form-check-input" type="radio" name="gender" value="Male" id="flexRadioDefault1" checked>
                                     <label class="form-check-label" for="flexRadioDefault1"> Male </label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault2">
+                                    <input class="form-check-input" type="radio" name="gender" value="Female" id="flexRadioDefault2">
                                     <label class="form-check-label" for="flexRadioDefault2"> Female </label>
                                 </div>
                                 @error('gender') 

@@ -50,11 +50,13 @@
                         <div class="btn-group">
                             <a href="/client_info/{{$client->id}}/details" class="btn btn-secondary"> <i class="fa fa-user"></i> {{ __('Profile')}} </a>
 
+                            @if(Auth::user()->is_admin == 1)
                             <form id="rejeter-form" action="{{ route('user.user-request') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $client->id }}">
                                 <button class="btn btn-success mx-1" name="send" value="accept"><i class="fa fa-check"></i> Accepter </button> 
                             </form>
+                            @endif
 
 
                         </div>

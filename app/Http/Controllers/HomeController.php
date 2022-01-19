@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Clients;
 use App\Models\Alerts;
 
+
 class HomeController extends Controller
 {
     /**
@@ -13,10 +14,12 @@ class HomeController extends Controller
      *
      * @return void
      */
+    /*
     public function __construct()
     {
         $this->middleware('auth');
     }
+    */
 
     /**
      * Show the application dashboard.
@@ -41,4 +44,5 @@ class HomeController extends Controller
         //$fichiers = Alerts::paginate(4);
         return view('accueil', ['clients' => $paginate_client, 'alerts' => $paginate_alert]);
     }
+
 }

@@ -55,11 +55,13 @@
                                 <button type="submit" class="btn btn-primary mx-1"> <i class="fa fa-folder"></i> Fichiers</button>
                             </form>
 
+                            @if(Auth::user()->is_admin == 1)
                             <form id="rejeter-form" action="{{ route('user.user-request') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $client->id }}">
                                 <button class="btn btn-danger" name="send" value="deny"><i class="fa fa-times"></i> Désactiver </button> 
                             </form>
+                            @endif
 
                         </div>
                         <!--<a href="client_info/{{$client->id}}/edit" class="btn btn-primary"> <i class="fa fa-edit"></i> {{ __('Edit')}} </a>-->

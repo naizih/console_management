@@ -12,7 +12,10 @@
                 <th scope="col"> {{ __('Mobile')}} </th>
                 <th scope="col"> {{ __('Email')}} </th>
                 <th scope="col"> {{ __('Site')}} </th>
+                
+                @if( Auth::check() && Auth::user()->is_admin == 1)
                 <th scope="col"> {{ __('Actions')}} </th>
+                @endif
         </thead>
 
         <tbody>
@@ -23,6 +26,8 @@
                     <td> {{ $client->mobile }} </td>
                     <td> {{ $client->email }} </td>
                     <td> {{ $client->site }} </td>
+
+                    @if( Auth::check() && Auth::user()->is_admin == 1)
                     <td>
                         <form id="form-accept-deny" action="{{ route('user.user-request') }}" method="post">
                             @csrf
@@ -31,6 +36,7 @@
                             <button class="btn btn-danger" name="send" value="deny"><i class="fa fa-times"></i> Rejeté </button> 
                         </form>
                     </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>
