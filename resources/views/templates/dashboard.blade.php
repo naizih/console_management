@@ -106,7 +106,25 @@
         <!-- Page Content -->
         <div id="content">
             <!-- We'll fill this with dummy content -->
-            
+<!--
+            @if ($errors->any())
+            <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            </div>
+            @endif
+
+-->
+
+            @if(\Session::get('message'))
+            <div class="alert alert-success">
+                <p> {{session::get('message')}}</p>
+            </div>
+            @endif
+
             @yield('content')
             
         </div>

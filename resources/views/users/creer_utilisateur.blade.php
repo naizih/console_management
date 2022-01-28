@@ -9,50 +9,74 @@
 
                 <div class="card-body">
 
-                    <form method="POST" action="{{ route('user.register') }}">
+                    <form method="POST" action="{{ route('user.new-user') }}">
                         @csrf
 
                         
                         <div class="form-group row mb-2">
                             <label for="inputName" class="col-sm-3 col-form-label">Nom</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="inputName" placeholder="Nom">
+                                <input type="text" class="form-control" name="name" id="inputName" placeholder="Nom" value="{{old('name')}}">
+                              
+                                @error('name')
+                                <div class="text-danger">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
                             </div>
-                            @error('name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
                         </div>
+
+                        
 
                         <div class="form-group row mb-2">
                             <label for="inputEmail" class="col-sm-3 col-form-label">E-mail</label>
                             <div class="col-sm-9">
-                                <input type="email" class="form-control" id="inputEmail" placeholder="E-mail">
-                            </div>
-                            @error('email')
-                                <span class="invalid-feedback" role="alert">
+                                <input type="email" class="form-control" name="email" id="inputEmail" placeholder="E-mail" value="{{old('email')}}">
+                                @error('email')
+                                <div class="text-danger">
                                     <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                                </div>
+                                @enderror
+                            </div>
                         </div>
 
                         <div class="form-group row mb-2">
                             <label for="inputPassword" class="col-sm-3 col-form-label">Password</label>
                             <div class="col-sm-9">
-                                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-                            </div>
-                            @error('password')
-                                <span class="invalid-feedback" role="alert">
+                                <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Password">
+                                @error('password')
+                                <div class="text-danger">
                                     <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                                </div>
+                                @enderror
+                            </div>
                         </div>
 
                         <div class="form-group row mb-2">
                             <label for="inputConfirmPassword" class="col-sm-3 col-form-label">Confirm Password</label>
                             <div class="col-sm-9">
-                                <input type="password" class="form-control" id="inputConfirmPassword" placeholder="Confirm Password">
+                                <input type="password" class="form-control" name="password_confirmation" id="inputConfirmPassword" placeholder="Confirm Password">
+                                @error('password_confirmation')
+                                <div class="text-danger">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-2">
+                            <label for="inputConfirmPassword" class="col-sm-3 col-form-label">Droit d'utilisateur</label>
+                            <div class="col-sm-9">
+                                <select name="is_admin" id="">
+                                    <option value=""> Choisir le type d'utilisateur </option>
+                                    <option value="0">Utilisateur</option>
+                                    <option value="1"> Admin </option>
+                                </select>
+                                @error('is_admin')
+                                <div class="text-danger">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
                             </div>
                         </div>
 

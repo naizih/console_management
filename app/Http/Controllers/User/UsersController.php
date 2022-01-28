@@ -39,22 +39,32 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, User $user)
     {
         //validate the fields
-        $request->validate([
+        
+        $validator = $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|unique:users|email|max:255',
             'password' => 'required|between:8,255|confirmed',
-            'password_confirmation' => 'required'
+            'password_confirmation' => 'required|same:password',
+            'is_admin' => 'required'
+        ],
+        [
+            'is_admin.required' => "Choisir le type d'utilisateur SVP!"
         ]);
 
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
 
+        $user->create([
+            'name' =>  $request->name,
+            'email' =>  $request->email,
+            'is_admin' => $request->is_admin,
+            'password' => Hash::make($request->password),
+        ]);
+
+
+
+        /*
         if($request->role != null){
             $user->roles()->attach($request->role);
             $user->save();
@@ -66,8 +76,9 @@ class UsersController extends Controller
                 $user->save();
             }
         }
-
-        return redirect('/users');
+        */
+        
+        return redirect('/config')->with('message', "Vous avez crée avec succès le nouveau utilisateur.");
     }
 
     /**
@@ -100,23 +111,49 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
-    {
+    public function update(Request $request, User $user) {
 
         //validate the fields
-        $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255',
-            'password' => 'confirmed',
+        if($request->password == NULL) {
+            $request->validate([
+                'name' => 'required|max:50',
+                'email' => 'required|email|max:100',
+                'is_admin' => 'required'
+            ]);
+
+        }else{
+            $request->validate([
+                'name' => 'required|max:50',
+                'email' => 'required|email|max:100',
+                'password' => 'required|between:8,255|confirmed',
+                'password_confirmation' => 'required|same:password',
+                'is_admin' => 'required'
+            ]);
+        }
+
+
+        //dd($user->find($request->id)->password);
+
+        $pass = $user->find($request->id)->password;
+
+        if($request->password != null){
+            $pass = Hash::make($request->password);
+        }else{
+            $pass = $user->find($request->id)->password;
+        }
+        
+
+        //mise à jour des données dans le base de donnée.
+        $user->find($request->id)->update([
+            'name' =>  $request->name,
+            'email' =>  $request->email,
+            'password' => $pass,
+            'is_admin' => $request->is_admin,
         ]);
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if($request->password != null){
-            $user->password = Hash::make($request->password);
-        }
-        $user->save();
+    
 
+/*
         $user->roles()->detach();
         $user->permissions()->detach();
 
@@ -131,8 +168,8 @@ class UsersController extends Controller
                 $user->save();
             }
         }
-
-        return redirect('/users');
+*/
+        return redirect('/config')->with('message', "Vous avez Modifé avec succès le utilisateur ".$request->name);
 
     }
 
@@ -142,9 +179,11 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
-    {
-        dd('delete');
-        return redirect('/users');
+    public function destroy(User $user, $id) {
+
+              // supprimer la ligne correspondance dans le base de données.
+              $user->where('id', $id)->delete();        
+              
+              return redirect('/config')->with('message', "Le utilisateur est supprimer avec succès..");
     }
 }

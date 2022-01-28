@@ -18,22 +18,6 @@ use App\Http\Controllers\User\UsersController;
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-/*
-Route::get('send-mail', function () {
-    $details = [
-        'title' => 'Mail from ItSolutionStuff.com',
-        'body' => 'This is for testing email using smtp'
-    ];
-    \Mail::to('hazratbilalhabibi123@gmail.com')->send(new \App\Mail\MyTestMail($details));
-    dd("Email is Sent.");
-});
-*/
-
-
-
-
-
-
 
 
 Auth::routes([
@@ -43,18 +27,15 @@ Auth::routes([
 ]);
 
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
 
 Route::name('user.')->group(function(){
 
-
     //Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-
 
     Route::middleware(['auth:web', 'PreventBackHistory'])->group(function(){
+
+        Route::get('/', [HomeController::class, 'index'])->name('home');
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
 
         Route::get('/clients', [ClientsController::class, 'index'])->name('clients');
         Route::get('/client_info/{id}/details', [ClientsController::class, 'show']);
@@ -91,10 +72,12 @@ Route::name('user.')->group(function(){
         Route::get('/config', [ConfigController::class, 'index'])->name('config');
 
         Route::get('/register', [UsersController::class, 'create'])->name('register');
+        Route::post('/register', [UsersController::class, 'store'])->name('new-user');
         
         //Route::get('/view', [UsersController::class, 'index'])->name('admin_view');
         Route::get('/edit/{id}', [UsersController::class, 'edit'])->name('edit');
-        Route::post('/delete', [UsersController::class, 'destroy'])->name('admin_delete');
+        Route::post('/update', [UsersController::class, 'update'])->name('user-update');
+        Route::post('/delete/{id}', [UsersController::class, 'destroy'])->name('admin_delete', 'id');
 
     });
 

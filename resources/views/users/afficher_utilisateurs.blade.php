@@ -10,10 +10,8 @@
             <thead class="align-middle">
                 <tr>
                     <th scope="col"> {{ __('Nom')}} </th>
-                    <th scope="col"> {{ __('Gender')}} </th>
-                    <th scope="col"> {{ __('Mobile')}} </th>
                     <th scope="col"> {{ __('Email')}} </th>
-                    <th scope="col"> {{ __('Date de naissance')}} </th>
+                    <th scope="col"> Type d'utilisateur </th>
                     <th scope="col"> {{ __('Actions')}} </th>
                 </tr>
             </thead>
@@ -22,13 +20,8 @@
                 @foreach ($clients as $client )
                 <tr>
                     <td> {{ $client->name }} </td>
-                    <td> {{ $client->gender }} </td>
-                    <td>
-                        <a href="tel:{{$client->mobile}}" class="text-decoration-none"> {{ $client->phone }} </a>    
-                    </td>
-                    <td>
-                        <a href="mailto:{{$client->email}}" class="text-decoration-none"> {{ $client->email }} </a></td>
-                    <td> {{ $client->dob }} </td>
+                    <td> <a href="mailto:{{$client->email}}" class="text-decoration-none"> {{ $client->email }} </a> </td>
+                    <td> {{ $client->is_admin == 1 ? 'Admin' : 'Utilisateur' }} </td>
                     <td class="text-center">
                         
                         <div class="btn-group">
@@ -37,7 +30,7 @@
                             <a href="/edit/{{$client->id}}" class="btn btn-primary rounded mx-1"> <i class="fa fa-edit"></i> Modifier </a>
 
 
-                            <form id="rejeter-form" action="{{ route('user.admin_delete') }}" method="post">
+                            <form id="rejeter-form" action="{{ route('user.admin_delete' , $client->id) }}" method="post">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $client->id }}">
                                 <button class="btn btn-danger" ><i class="fa fa-trash"></i> Supprimer </button> 
