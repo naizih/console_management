@@ -3,6 +3,6 @@
 
 this is a consoel management project.
 
-In this section i am creating login systeme for user to login.
+in this version we have modifed our application to have role and permission accessibility.
 
 
