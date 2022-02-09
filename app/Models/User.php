@@ -22,12 +22,10 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name', 
-        'phone', 
-        'dob', 
-        'gender', 
         'email', 
         'password',
-        'is_admin'
+        'is_admin',
+        'role_id'
     ];
 
     /**
@@ -49,5 +47,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+  
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
+
+    public function hasPermission($slug) {
+        return $this->role->permissions()->where('slug', $slug)->exists();
+    }
 
 }

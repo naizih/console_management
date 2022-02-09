@@ -16,7 +16,11 @@
                 <th scope="col"> {{ __('chemin de fichier')}} </th>
                 <th scope="col"> Date d'alert </th>
                 @if( Auth::check())
+
+                @can('gerer_alert', App\Models\User::class)
                 <th scope="col"> {{ __('Gérer')}} </th>
+                @endcan
+
                 @endif
             </tr>
             </thead>
@@ -35,6 +39,8 @@
                     <td> {{ $alert->created_at}} </td>
 
                     @if( Auth::check())
+
+                    @can('gerer_alert', App\Models\User::class)
                     <td>
                         <form action="{{ route('user.alert-gerer') }}" method="post">
                             @csrf
@@ -43,6 +49,8 @@
                             <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Oui </button>
                         </form>
                     </td>
+                    @endcan
+
                     @endif
                 </tr>
                 @endforeach

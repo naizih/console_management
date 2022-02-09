@@ -10,7 +10,7 @@ use App\Models\Clients;
 use App\Models\Fichiers;
 use App\Models\ResultatCheck;
 use App\Models\Alerts;
-use App\Models\Mail;
+use App\Models\Email;
 
 // Controllers
 use App\Http\Controllers\Clients\ClientsController;
@@ -65,7 +65,7 @@ class APIController extends Controller
         if ($request[0]['client_email'] != Null ){
             $client_existe = Clients::where('email', $request[0]['client_email'])->first();     // variable qui compare le email reçu avec les emails de base de données.
 
-            $emails = Mail::all();
+            $emails = Email::all();
             //return response()->json(['message' => $email]);
 
             // check if client not existe
@@ -114,18 +114,18 @@ class APIController extends Controller
 
                             $details = [
                                 'title' => 'Alerts',
-                                'body' => 'This alert is came from '.$client_existe->nom_entreprise.' appat file has been modified.
-                                
-                                Client: '.$client_exist->nom_entreprise.'.
-                                Email: '.$client_exist->email.'
-                                File: '.$file_existe->Chemin_de_fichier.$file_existe->nom_de_fichier.'
-                                
-                                '
+                                'body' => 'Cette alert vient du client '.$client_existe->nom_entreprise.' , les informations d\'alert sont ci-dessous :',
+                                'file' => $file_existe->Chemin_de_fichier.$file_existe->nom_de_fichier,
+                                'client' => $client_existe->nom_entreprise,
+                                'client_email' => $client_existe->email,  
+                                'mobile' => $client_existe->mobile,
                             ];
+                            
 
                             foreach ($emails as $email) {
-                                \Mail::to($email)->send(new \App\Mail\MyTestMail($details));
+                                \Mail::to($email)->send(new \App\Mail\DynamicEmail($details));
                             }
+            
                             //\Mail::to('hazratbilalhabibi123@gmail.com')->send(new \App\Mail\MyTestMail($details));
                             
                             $alert_message = "et alerts existe, est ajoute avec succes";
@@ -147,19 +147,20 @@ class APIController extends Controller
                             // Ajouter alerts dans le table de alerts en base de données
                             AlertsController::store($req);
 
+
+                            
                             $details = [
                                 'title' => 'Alerts',
-                                'body' => 'This alert is came from '.$client_existe->nom_entreprise.' appat file has been modified.
-                                
-                                Client: '.$client_existe->nom_entreprise.'
-                                Email: '.$client_existe->email.'
-                                File: '.$file_existe->Chemin_de_fichier.$file_existe->nom_de_fichier.'
-                                
-                                '
+                                'body' => 'Cette alert vient du client '.$client_existe->nom_entreprise.' , les informations d\'alert sont ci-dessous :',
+                                'file' => $file_existe->Chemin_de_fichier.$file_existe->nom_de_fichier,
+                                'client' => $client_existe->nom_entreprise,
+                                'client_email' => $client_existe->email,  
+                                'mobile' => $client_existe->mobile,
                             ];
+                            
 
                             foreach ($emails as $email) {
-                                \Mail::to($email)->send(new \App\Mail\MyTestMail($details));
+                                \Mail::to($email)->send(new \App\Mail\DynamicEmail($details));
                             }
 
                             // Retourner le reponse.

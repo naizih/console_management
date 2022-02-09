@@ -4,7 +4,7 @@
 @section('content')
 <section>
 
-    <div class="container">
+    <div>
 
         @if(Session::get('fail'))
         <div class="alert alert-danger">
@@ -21,6 +21,7 @@
 
 
         <h1> Accueil</h1>
+
 
 
         

@@ -7,22 +7,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class MyTestMail extends Mailable
+class DynamicEmail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $details;
 
+    public $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-
-    public function __construct($details)
+    public function __construct($data)
     {
         //
-        $this->details = $details;
+        $this->data = $data;
     }
 
     /**
@@ -30,8 +29,11 @@ class MyTestMail extends Mailable
      *
      * @return $this
      */
-    public function build() {
-        return $this->subject('File server Alerts')->view('emails.myTestMail');
+    public function build()
+    {
         //return $this->view('view.name');
+        return $this->subject('Alert Client')->view('mails.email-template')->with("data", $this->data);
+
+        
     }
 }

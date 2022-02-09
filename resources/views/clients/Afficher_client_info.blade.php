@@ -9,16 +9,7 @@
 
 <div class="col-md-10" style="margin: auto;">
     <div class="card p-4">
-        
-        @if(Session::get('fail'))
-            <div class="alert alert-danger">
-                {{ Session::get('fail') }}
-            </div>
-        @endif
-
-
-        
-
+    
         <div class="row">
             <div class="col-sm-2">
                 <img src="{{asset('images/profile.jpg')}}" class="img-fluid rounded-start" alt="...">
@@ -81,6 +72,7 @@
         </div>
     </div>
 </div>
+
 
 
 

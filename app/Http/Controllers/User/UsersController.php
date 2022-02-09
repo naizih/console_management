@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
@@ -18,9 +19,10 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $this->authorize('crud_utilisateurs', User::class);
 
-        return view('config.accueil', ['clients' => $users]);
+        $users = User::all();
+        return view('users.afficher_utilisateurs', ['users' => $users]);
     }
 
     /**
@@ -30,7 +32,11 @@ class UsersController extends Controller
      */
     public function create(Request $request)
     {
-        return view('users.creer_utilisateur');
+     
+        $this->authorize('crud_utilisateurs', User::class);
+        
+        $roles = Role::get();
+        return view('users.creer_utilisateur', compact('roles'));
     }
 
     /**
@@ -42,13 +48,15 @@ class UsersController extends Controller
     public function store(Request $request, User $user)
     {
         //validate the fields
+
+        $this->authorize('crud_utilisateurs', $user);
         
         $validator = $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|unique:users|email|max:255',
             'password' => 'required|between:8,255|confirmed',
             'password_confirmation' => 'required|same:password',
-            'is_admin' => 'required'
+            'role_id' => 'required'
         ],
         [
             'is_admin.required' => "Choisir le type d'utilisateur SVP!"
@@ -58,8 +66,9 @@ class UsersController extends Controller
         $user->create([
             'name' =>  $request->name,
             'email' =>  $request->email,
-            'is_admin' => $request->is_admin,
+            'is_admin' => '0',
             'password' => Hash::make($request->password),
+            'role_id'   => $request->role_id,
         ]);
 
 
@@ -78,7 +87,7 @@ class UsersController extends Controller
         }
         */
         
-        return redirect('/config')->with('message', "Vous avez crée avec succès le nouveau utilisateur.");
+        return redirect('/admin/utilisateurs')->with('message', "Vous avez crée avec succès le nouveau utilisateur.");
     }
 
     /**
@@ -89,7 +98,7 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        return view('admin.users.show', ['user'=>$user]);
+        //return view('admin.users.show', ['user'=>$user]);
     }
 
     /**
@@ -100,8 +109,12 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('crud_utilisateurs', User::class);
+     
         $user = User::whereId($id)->first();
-        return view('users.modifier_utilisateur', ['user' => $user]);
+        $roles = Role::get();
+        $permissions = Permission::get();
+        return view('users.modifier_utilisateur', ['user' => $user, 'roles' => $roles, 'permissions' => $permissions]);
     }
 
     /**
@@ -113,26 +126,25 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user) {
 
+        $this->authorize('crud_utilisateurs', $user);
+        
         //validate the fields
         if($request->password == NULL) {
             $request->validate([
                 'name' => 'required|max:50',
                 'email' => 'required|email|max:100',
-                'is_admin' => 'required'
+                'role_id'   => 'required'
             ]);
-
         }else{
             $request->validate([
                 'name' => 'required|max:50',
                 'email' => 'required|email|max:100',
                 'password' => 'required|between:8,255|confirmed',
                 'password_confirmation' => 'required|same:password',
-                'is_admin' => 'required'
+                'role_id'   => 'required'
             ]);
         }
-
-
-        //dd($user->find($request->id)->password);
+        
 
         $pass = $user->find($request->id)->password;
 
@@ -142,34 +154,17 @@ class UsersController extends Controller
             $pass = $user->find($request->id)->password;
         }
         
+        
+        $user = $user->find($request->id);
 
-        //mise à jour des données dans le base de donnée.
-        $user->find($request->id)->update([
-            'name' =>  $request->name,
-            'email' =>  $request->email,
-            'password' => $pass,
-            'is_admin' => $request->is_admin,
-        ]);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $pass;
+        $user->role_id = $request->role_id;
+        $user->save();
 
-    
 
-/*
-        $user->roles()->detach();
-        $user->permissions()->detach();
-
-        if($request->role != null){
-            $user->roles()->attach($request->role);
-            $user->save();
-        }
-
-        if($request->permissions != null){            
-            foreach ($request->permissions as $permission) {
-                $user->permissions()->attach($permission);
-                $user->save();
-            }
-        }
-*/
-        return redirect('/config')->with('message', "Vous avez Modifé avec succès le utilisateur ".$request->name);
+        return redirect('/admin/utilisateurs')->with('message', "Vous avez Modifé avec succès le utilisateur ".$request->name);
 
     }
 
@@ -181,9 +176,11 @@ class UsersController extends Controller
      */
     public function destroy(User $user, $id) {
 
-              // supprimer la ligne correspondance dans le base de données.
-              $user->where('id', $id)->delete();        
+        $this->authorize('crud_utilisateurs', User::class);
+
+        // supprimer la ligne correspondance dans le base de données.
+        $user->where('id', $id)->delete();        
               
-              return redirect('/config')->with('message', "Le utilisateur est supprimer avec succès..");
+        return redirect('/admin/utilisateurs')->with('message', "Le utilisateur est supprimer avec succès..");
     }
 }

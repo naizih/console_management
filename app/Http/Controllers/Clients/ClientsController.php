@@ -127,7 +127,6 @@ class ClientsController extends Controller
      */
     public function show($id)
     {
-        //
         $client = Clients::whereid($id)->first();
         return view('clients.Afficher_client_info', ['client' => $client]);
     }

@@ -5,7 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="card-header"> 
+                    <h3> Enregistrement </h3>
+                </div>
 
                 <div class="card-body">
 
@@ -64,15 +66,18 @@
                             </div>
                         </div>
 
+
+
                         <div class="form-group row mb-2">
-                            <label for="inputConfirmPassword" class="col-sm-3 col-form-label">Droit d'utilisateur</label>
+                            <label for="inputConfirmPassword" class="col-sm-3 col-form-label">Role d'utilisateur</label>
                             <div class="col-sm-9">
-                                <select name="is_admin" id="">
-                                    <option value=""> Choisir le type d'utilisateur </option>
-                                    <option value="0">Utilisateur</option>
-                                    <option value="1"> Admin </option>
+                                <select name="role_id" id="role_id" class="form-control">
+                                    <option value=""> Choisir le Role d'utilisateur </option>
+                                    @foreach ($roles as $role)
+                                        <option value="{{$role->id}}"> {{ $role->name }} </option>
+                                    @endforeach
                                 </select>
-                                @error('is_admin')
+                                @error('role_id')
                                 <div class="text-danger">
                                     <strong>{{ $message }}</strong>
                                 </div>

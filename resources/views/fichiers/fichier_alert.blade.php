@@ -11,23 +11,13 @@
         </div>
 
         <div class="card-body">
-
-
-            @if(Session::get('fail'))
-            <div class="alert alert-danger">
-                {{ Session::get('fail') }}
-            </div>
-            @endif
-
-
-
             <div class="col-sm-3">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">Filtre par:</label>
                     </div>
 
-                    <form action="{{ route('user.alert-filter') }}" method="post" id="form-filter">
+                    <form action="{{ route('user.alert-filter') }}" method="get" id="form-filter">
                         @csrf
                         <select class="form-select"  name="filter" id="filter_alert">
                             <option value=""> Choisir un option pour filtrer </option>
