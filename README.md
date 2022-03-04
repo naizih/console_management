@@ -47,7 +47,7 @@ sudo apt-get install php-mysql
 
 ## Installation composer et passé au Version 2
 
-par défaut le dossier ** /var/www/html ** n'a pas de permission d'ecriteur, alors soit donner le permission à ce dossier soit aller dans le repértoire /home et finir cette étap.
+par défaut le dossier <strong> /var/www/html </strong> n'a pas de permission d'ecriteur, alors soit donner le permission à ce dossier soit aller dans le repértoire /home et finir cette étap.
 ```
 sudo apt install composer
 sudo curl -s https://getcomposer.org/installer | php
@@ -68,12 +68,12 @@ sudo git clone --branch v1.4 https://github.com/naizih/console_management.git
 
 
 ## Configuration de serveur apache2 pour laravel
-Aller dans le fichier ** /etc/apache2/sites-available/000-default.conf ** et modifier la ligne suivant DocumentRoot:
+Aller dans le fichier <strong> /etc/apache2/sites-available/000-default.conf </strong> et modifier la ligne suivant DocumentRoot:
 ```
 DocumentRoot /var/www/html/console_management/public
 ```
 
-ajouter le code suivant à la fin de fichier ** /etc/apache2/apache2.conf **  
+ajouter le code suivant à la fin de fichier <strong> /etc/apache2/apache2.conf </strong>  
 ```
 <Directory /var/www/html/console_management>
         Options Indexes FollowSymLinks
