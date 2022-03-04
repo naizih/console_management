@@ -91,7 +91,7 @@
             <a href="#"> <i class="fa fa-users"></i> <span>Clients</span>  </a>
             <div class="sidebar-submenu">
               <ul>
-                <li> <a href="{{route('user.clients')}}"">Tous les clients </a> </li>
+                <li> <a href="{{route('user.clients')}}">Tous les clients </a> </li>
                 <li> <a href="{{ route('user.clients-accepter') }}"> Clients acceptés </a> </li>
                 <li> <a href="{{ route('user.clients-rejeter') }}"> Clients rejetés </a> </li>
               </ul>
