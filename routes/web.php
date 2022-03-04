@@ -20,8 +20,16 @@ use App\Http\Controllers\EmailConfigurationController;
 use App\Models\User;
 
 
+if (\Schema::hasTable('users')){
+    $user_table = User::all();
+    $count = $user_table->count();
+}else{
+    $count = 0;
+}
+
+
 Auth::routes([
-    'register' => false, // Registration Routes...
+    'register' => $count == 0 ? true : false, // Registration Routes...
     'reset' => false, // Password Reset Routes...
     'verify' => false, // Email Verification Routes...
 ]);
@@ -83,8 +91,8 @@ Route::name('user.')->group(function(){
         // Route pour gestion des utilisateurs ( CRUD )
         Route::get('/admin/utilisateurs', [UsersController::class, 'index'])->name('users');
         // IS Admin
-        Route::get('/register', [UsersController::class, 'create'])->name('register');
-        Route::post('/register', [UsersController::class, 'store'])->name('new-user');
+        Route::get('/user/register', [UsersController::class, 'create'])->name('register');
+        Route::post('/user/register', [UsersController::class, 'store'])->name('new-user');
         //Route::get('/view', [UsersController::class, 'index'])->name('admin_view');
         Route::get('/edit/{id}', [UsersController::class, 'edit'])->name('edit');
         Route::post('/user/update', [UsersController::class, 'update'])->name('user_update');

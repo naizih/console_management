@@ -31,9 +31,21 @@
                         
 
                         <div class="form-group row mb-2">
-                            <label for="inputEmail" class="col-sm-3 col-form-label"> Label de permission </label>
+                            <label for="inputLabel" class="col-sm-3 col-form-label"> Label de permission </label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="label" id="inputEmail" placeholder="Label de permission" value="{{old('label')}}">
+                                <!--<input type="text" class="form-control" name="label" id="inputEmail" placeholder="Label de permission" value="{{old('label')}}">-->
+
+                                <select name="label" id="inputLabel" class="form-select">
+                                    <option value=""> Sélectionner un des permission </option>
+                                    <option value="crud_utilisateurs"> Opération CRUD utilisateurs </option>
+                                    <option value="crud_roles"> Opération CRUD Roles </option>
+                                    <option value="crud_permissions"> Opération CRUD Permissions </option>
+                                    <option value="crud_emails"> Opération CRUD Mail </option>
+                                    <option value="accepter_request"> Accepter le request de nouveau client </option>
+                                    <option value="rejeter_request"> Rejeter le request de nouveau client </option>
+                                    <option value="gerer_alert"> Gérer un alerts </option>
+                                </select>
+
                                 @error('label')
                                 <div class="text-danger">
                                     <strong>{{ $message }}</strong>

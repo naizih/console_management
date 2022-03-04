@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <a href="/register" class="btn btn-success"> Ajouter utilisateur </a>
+    <a href="/user/register" class="btn btn-success"> Ajouter utilisateur </a>
 
     <div class="table-responsive my-2  bg-white border rounded">     
         <h2 class="px-2 py-3"> Utilisateurs </h2>

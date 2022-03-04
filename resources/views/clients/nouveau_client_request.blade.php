@@ -4,11 +4,11 @@
 
 <section class="bg-white border border-dark rounded my-5">
     <table class="table">
-        <h4 class="px-2 py-3 bg-black text-white rounded"> Nouveau utilisateur est crée, voulez-vous l'autorisé pour recevoir l'information de fichiers appat de ce client ?</h4>
+        <h4 class="px-2 py-3 bg-black text-white rounded"> Un nouveau utilisateur est crée, voulez-vous l'autorisé pour recevoir les informations du fichier appat de ce client ?</h4>
         <thead class="bg-primary text-white">
             <tr>
                 <th scope="col"> {{ __('Nom d\'entreprise')}} </th>
-                <th scope="col"> {{ __('Nom de client')}} </th>
+                <th scope="col"> {{ __('Nom du client')}} </th>
                 <th scope="col"> {{ __('Mobile')}} </th>
                 <th scope="col"> {{ __('Email')}} </th>
                 <th scope="col"> {{ __('Site')}} </th>

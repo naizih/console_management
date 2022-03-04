@@ -30,14 +30,37 @@
         @endguest
     </header>
     -->
+
     
+    @if (!Auth::user())
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-black mt-1 p-2">
+        <!-- <a class="navbar-brand" href="/">Cryptolocker</a>-->
+        <img src="{{url('images/L.Koesio_50mm_CMJN.svg')}}" class="navbar navbar-brand" alt="" srcset="" id="logo">
+
+          @if (Route::has('register'))
+            <div class="nav-item">
+              <a class="btn text-white" href="{{ route('register') }}"> S'inscrire </a>
+            </div>
+          @else
+          <div class="nav-item">
+              <a href="{{ route('user.home') }}" class="btn text-white"><i class="fa fa-fw fa-sign-in"></i> Se connecter </a>
+            </div>
+          @endif
+        
+      </nav>
+    </div>
+    @endif
+
   @if (Auth::user())
-
-
   <nav id="sidebar" class="sidebar-wrapper">
     <div class="sidebar-content">
       <div class="sidebar-brand">
-        <a href="{{ route('user.home') }}">Console Management </a>
+        <a href="{{ route('user.home') }}">
+          <img src="{{url('images/L.Koesio_50mm_CMJN.svg')}}" class="navbar navbar-brand" alt="" srcset="" id="logo_dashboard">
+        </a>
+        <!--<a href="{{ route('user.home') }}">Console Management </a>-->
+        
         <!-- <div id="close-sidebar"> <i class="fas fa-sign-out-alt"></i> </div> -->
       </div>
       <div class="sidebar-header">

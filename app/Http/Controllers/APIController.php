@@ -55,6 +55,7 @@ class APIController extends Controller
         $client = new Clients;
         $file = new Fichiers;
         $resultatCheck = new ResultatCheck;
+
        
         // verifiées si les données envoyer par client sont pas vide
         if (empty($request[0])){
@@ -67,6 +68,7 @@ class APIController extends Controller
 
             $emails = Email::all();
             //return response()->json(['message' => $email]);
+
 
             // check if client not existe
             // On verifiée que le premier array de request car on est ici dans le condition si le client n'existe pas
@@ -115,7 +117,7 @@ class APIController extends Controller
                             $details = [
                                 'title' => 'Alerts',
                                 'body' => 'Cette alert vient du client '.$client_existe->nom_entreprise.' , les informations d\'alert sont ci-dessous :',
-                                'file' => $file_existe->Chemin_de_fichier.$file_existe->nom_de_fichier,
+                                'file' => $file_existe->Chemin_de_fichier.'/'.$file_existe->nom_de_fichier,
                                 'client' => $client_existe->nom_entreprise,
                                 'client_email' => $client_existe->email,  
                                 'mobile' => $client_existe->mobile,
@@ -152,7 +154,7 @@ class APIController extends Controller
                             $details = [
                                 'title' => 'Alerts',
                                 'body' => 'Cette alert vient du client '.$client_existe->nom_entreprise.' , les informations d\'alert sont ci-dessous :',
-                                'file' => $file_existe->Chemin_de_fichier.$file_existe->nom_de_fichier,
+                                'file' => $file_existe->Chemin_de_fichier.'/'.$file_existe->nom_de_fichier,
                                 'client' => $client_existe->nom_entreprise,
                                 'client_email' => $client_existe->email,  
                                 'mobile' => $client_existe->mobile,
@@ -209,6 +211,7 @@ class APIController extends Controller
                 'site' =>  $request->site,
                 'nom_client' => $request->nom_client,
                 'mobile' => $request->mobile,
+                'accepter' => '1'
             ]);
 
             return response()->json(['message' => "et dans le serveur console management!"]); 
