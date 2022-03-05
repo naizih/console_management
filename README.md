@@ -24,7 +24,7 @@ sudo systemctl start apache2
 
 ## Installation de php et dépendancies
 ```
-sudo apt install php7.4-cli php7.4-curl phpunit libapache2-mod-php7.4
+sudo apt install php7.4-cli php7.4-curl phpunit libapache2-mod-php7.4 php-mysql git curl
 
 ```
 
@@ -36,14 +36,33 @@ sudo mysql -u root
 CREATE DATABASE serveur_management;
 CREATE USER 'laravel'@'localhost' IDENTIFIED BY 'Password@312';
 GRANT ALL PRIVILEGES ON serveur_management.* TO 'laravel'@'localhost' WITH GRANT OPTION;
+exit
 ```
 
 
-##### installation de driver pour mysql
-Dans cette étap on installe le dépendance pour connecter le code php avec serveur SQL.
+
+## Clonner le projet
+Ici on utilise sudo car l'utilisateir normale n'ap pas droit d'écrire sur cette répertoire.
 ```
-sudo apt-get install php-mysql
+cd /var/www/html
+sudo git clone --branch v1.4 https://github.com/naizih/console_management.git
 ```
+
+
+## Connecter l'application avec BDD
+Il faut donner le nom de base de donnée, nom d'utilisateur et le mot de passe que on a crée dans l'étaps précendent.
+```
+sudo mv .env.example .env
+sudo nano .env
+```
+Et dans ce fichier modifé les paramétre suivants
+```
+DB_DATABASE=serveur_management
+DB_USERNAME=laravel
+DB_PASSWORD=Password@312
+```
+
+
 
 ## Installation composer et passé au Version 2
 
@@ -57,14 +76,13 @@ cd /var/www/html/cryptolocker
 sudo composer update
 ```
 
-## Installation des dépendance de base et clonner le projet
-```
-sudo apt-get install git curl
-cd /var/www/html
-sudo git clone --branch v1.4 https://github.com/naizih/console_management.git
-```
 
-
+## Droit
+```
+cd /var/www/html/
+sudo chown -R www-data:www-data console_management
+sudo chmod -R 777 storage 
+```
 
 
 ## Configuration de serveur apache2 pour laravel
@@ -89,22 +107,13 @@ sudo systemctl restart apache2
 ```
 
 
-## Generer le clé s'il n'existe pas par défault
-```
-sudo php artisan key:generate
-```
-
-## Droit
-```
-cd /var/www/html/
-sudo chown -R www-data:www-data console_management
-```
 
 
 ## Migrate
 ```
 sudo php artisan migrate
 ```
+
 
 
 ## Create role
@@ -117,18 +126,8 @@ exit
 
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## Generer le clé s'il n'existe pas par défault
+```
+sudo php artisan key:generate
+```
 
