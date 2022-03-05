@@ -56,6 +56,8 @@ class EmailConfigurationController extends Controller
         else {
             return back()->with("failed", "Email configuration not created.");
         }
+        
+        return redirect('/admin/emailconfiguration')->with('message', "Vous avez ajouter avec succès le configuration de serveur mail.");
     }
 
     public function composeEmail() {
