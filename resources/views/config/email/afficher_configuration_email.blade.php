@@ -56,7 +56,7 @@
 
 
         {{-- Pagination --}}
-        @if($config instanceof \Illuminate\Pagination\LengthAwarePaginator )
+        @if($configuration instanceof \Illuminate\Pagination\LengthAwarePaginator )
         <div class="d-flex justify-content-center my-4">
             {!! $config->links() !!}
         </div>
