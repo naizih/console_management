@@ -21,8 +21,9 @@ class RolesController extends Controller
     public function index() {
         $this->authorize('crud_roles', User::class);
 
+        $first_role = Role::first();
         $roles = Role::orderBy('id', 'asc')->get();
-        return view('roles.afficher_roles', ['roles' => $roles]);
+        return view('roles.afficher_roles', ['roles' => $roles, 'first_role' => $first_role]);
     }
 
     /**

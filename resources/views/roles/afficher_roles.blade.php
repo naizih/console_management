@@ -52,7 +52,10 @@
                                     <form id="rejeter-form" action="{{ route('user.role_delete' , $role->id) }}" method="post">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $role->id }}">
-                                        <button class="btn btn-danger" ><i class="fa fa-trash"></i> Supprimer </button> 
+
+                                        @if ($first_role->slug != $role->slug)
+                                            <button class="btn btn-danger" ><i class="fa fa-trash"></i> Supprimer </button> 
+                                        @endif
                                     </form>
 
                                     <a href="{{route('user.role_edit', $role->id )}}" class="btn btn-primary rounded mx-1"> <i class="fa fa-edit"></i> Modifier </a>
