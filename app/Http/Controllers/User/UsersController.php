@@ -22,7 +22,8 @@ class UsersController extends Controller
         $this->authorize('crud_utilisateurs', User::class);
 
         $users = User::all();
-        return view('users.afficher_utilisateurs', ['users' => $users]);
+        $first_user = User::first();
+        return view('users.afficher_utilisateurs', ['users' => $users, 'first_user' => $first_user]);
     }
 
     /**

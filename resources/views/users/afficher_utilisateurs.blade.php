@@ -46,7 +46,9 @@
                             <form id="rejeter-form" action="{{ route('user.user_delete' , $user->id) }}" method="post">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $user->id }}">
-                                <button class="btn btn-danger" ><i class="fa fa-trash"></i> Supprimer </button> 
+                                @if ($user->email != $first_user->email)
+                                    <button class="btn btn-danger" ><i class="fa fa-trash"></i> Supprimer </button> 
+                                @endif
                             </form>
 
                         </div>

@@ -65,7 +65,7 @@
       </div>
       <div class="sidebar-header">
         <div class="user-info">
-          <span class="user-name">
+          <span class="user-name text-uppercase">
             @if (Auth::user())
                 <strong> {{ Auth::user()->name }} </strong>
             @endif
@@ -127,7 +127,7 @@
 
 
           @can('crud_emails', App\Models\User::class)
-            <li> <a href="{{route('user.mails')}}"> <i class="fa fa-envelope"></i> Gestion Mail </a> </li>
+            <li> <a href="{{route('user.mails')}}"> <i class="fa fa-envelope"></i> Gestion mail alert </a> </li>
           @endcan
 
 
@@ -137,7 +137,7 @@
             <div class="sidebar-submenu">
               <ul>
                 @can('crud_emails', App\Models\User::class)
-                  <li> <a href="{{route('user.email-configuration-index')}}"> E-mail Configuration </a> </li>
+                  <li> <a href="{{route('user.email-configuration-index')}}"> Configuration du serveur Mail </a> </li>
                 @endcan
               </ul>
             </div>

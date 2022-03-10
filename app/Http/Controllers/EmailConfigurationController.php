@@ -46,14 +46,13 @@ class EmailConfigurationController extends Controller
         ]);
 
         if(!is_null($configuration)) {
-           return back()->with("success", "Email configuration created.");
+            return redirect('/admin/emailconfiguration')->with('message', "Vous avez ajouter avec succès le configuration de serveur mail.");
+            //return back()->with("message", "Email configuration created.");
         }
 
         else {
             return back()->with("failed", "Email configuration not created.");
         }
-        
-        return redirect('/admin/emailconfiguration')->with('message', "Vous avez ajouter avec succès le configuration de serveur mail.");
     }
 
     public function composeEmail() {

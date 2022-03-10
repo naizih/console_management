@@ -3,7 +3,9 @@
 
 @section('content')
 
+    @if (!count($configuration) > 0 )
     <a href="{{route('user.emailconfiguration_create')}}" class="btn btn-success"> Ajouter Configuration de Mail </a>
+    @endif
 
     <div class="table-responsive my-2  bg-white border rounded">     
         <h2 class="px-2 py-3"> Serveurs Mail </h2>
