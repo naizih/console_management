@@ -30,10 +30,6 @@ class EmailConfigurationController extends Controller
             'driver' => 'required',
             'hostName' => 'required',
             'port' => 'required',
-            'encryption' => 'required',
-            'userName'   => 'required',
-            'password'  => 'required',
-            'senderName' => 'required',
             'senderEmail' => 'required',
         ]);
 
