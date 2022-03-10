@@ -31,6 +31,7 @@
                     </div>
                 </div>
             </form>
+            <small class="text-secondary"> Rechercher les ficheirs uniquement du client <strong> accepter </strong>, en tapant le nom d'entreprise.</small>
             <hr class="my-4">
 
 
